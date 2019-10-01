@@ -9,29 +9,31 @@
 </template>
 
 <script>
+  import { mapMutations, mapActions } from 'vuex'
 
-export default {
-  name: 'login',
-  data() {
-    return {
-      pseudo: '',
-      password: ''
-    }
-  },
-  methods: {
-    login: function () {
-      this.axios.post('http://localhost:4000/api/login', {
-        login: this.pseudo,
-        password: this.password
-      })
-      .then((res) => {
-        console.log(res);
-        if (res.status === 200)
-          this.$router.replace('home')
-      })
+  export default {
+    name: 'login',
+    data() {
+      return {
+        pseudo: '',
+        password: ''
+      }
+    },
+    methods: {
+      login: function () {
+        this.axios.post('http://localhost:4000/api/login', {
+          login: this.pseudo,
+          password: this.password
+        })
+        .then((res) => {
+          if (res.status === 200){
+            this.$store.commit('setUserName', this.pseudo)
+            this.$router.replace('home')
+          }
+        })
+      }
     }
   }
-}
 </script>
 
 <style scoped>

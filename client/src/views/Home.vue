@@ -1,17 +1,14 @@
 <template>
   <div class="home">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>Welcome {{connectedUserName}}</h1>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import { mapState, mapMutations, mapActions } from 'vuex'
 
 export default {
   name: 'home',
-  components: {
-    HelloWorld
-  }
+  computed: mapState(['connectedUserName'])
 }
 </script>
