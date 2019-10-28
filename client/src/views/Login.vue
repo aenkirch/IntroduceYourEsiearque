@@ -28,6 +28,7 @@
         .then((res) => {
           if (res.status === 200){
             this.$store.commit('setUserName', this.pseudo)
+            this.$store.commit('getUsersData', res.data)
             this.$router.replace('home')
           }
         })

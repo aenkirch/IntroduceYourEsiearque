@@ -7,8 +7,8 @@
 
     <div>
       <ul>
-        <li v-for="item in cards" :key="item.name + item.from">
-          Nom: {{ connectedUserName }} - Age: {{ item.age }} - From: {{ item.from }}
+        <li v-for="item in usersData" :key="item.name + item.from">
+          Nom: {{ item.name }} - Age: {{ item.age }} - From: {{ item.from }}
         </li>
       </ul>
     </div>
@@ -20,7 +20,7 @@ import { mapState, mapMutations, mapActions } from 'vuex'
 
 export default {
   name: 'home',
-  computed: mapState(['connectedUserName']),
+  computed: mapState(['connectedUserName', 'usersData']),
   data: function() {
     return {
       name: '',

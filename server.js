@@ -12,6 +12,8 @@ const cors = require('cors')
 const session = require('express-session')
 
 const app = express()
+const data = require('./data');
+
 
 // ces lignes (cors) sont importantes pour les sessions dans la version de développement
 app.use(cors({
@@ -30,11 +32,6 @@ app.use(bodyParser.json())
 const path = require('path')
 app.use(express.static(path.join(__dirname, '/dist')))
 
-const users = [{
-  username: 'admin',
-  password: 'esiea'
-}]
-
 app.get('/api/test', (req, res) => {
   console.log('ce console.log est appelé au bon moment')
   res.json([
@@ -52,7 +49,7 @@ app.post('/api/login', (req, res) => {
   console.log('req.body', req.body)
   console.log('req.query', req.query)
   if (!req.session.userId) {
-    const user = users.find(u => u.username === req.body.login && u.password === req.body.password)
+    const user = data.users.find(u => u.username === req.body.login && u.password === req.body.password)
     if (!user) {
       // gérez le cas où on n'a pas trouvé d'utilisateur correspondant
       res.status(401)
@@ -62,9 +59,7 @@ app.post('/api/login', (req, res) => {
     } else {
       // connect the user
       req.session.userId = 1000 // connect the user, and change the id
-      res.json({
-        message: 'connected'
-      })
+      res.json( data.usersData );
     }
   } else {
     res.status(401)

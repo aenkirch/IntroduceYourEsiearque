@@ -6,11 +6,15 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        connectedUserName: ''
+        connectedUserName: '',
+        usersData: {}
     },
     mutations: {
         setUserName (state, payload) {
-        state.connectedUserName = payload
+            state.connectedUserName = payload
+        },
+        getUsersData (state, payload) {
+            state.usersData = payload
         }
     },
     plugins: [createPersistedState()]
