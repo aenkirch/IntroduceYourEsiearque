@@ -13,6 +13,11 @@ const usersData = {
         name: 'mathurin',
         age: 21,
         from: 'CPGE'
+    },
+    emmanuel: {
+        name: 'emmanuel',
+        age: 41,
+        from: 'ENA'
     }
 }
 
