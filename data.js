@@ -1,7 +1,9 @@
-const users = [{
-    username: 'admin',
-    password: 'esiea'
-}]
+const users = [
+    {
+        username: 'admin',
+        password: 'esiea'
+    }
+]
 
 const usersData = {
     admin: {
