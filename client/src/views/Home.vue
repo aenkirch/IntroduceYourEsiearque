@@ -16,7 +16,7 @@
             <div v-if="!connectedUserData">
               <v-text-field v-model="age" placeholder="Type your age"> </v-text-field>
               <v-text-field v-model="from" placeholder="What have you done before joining ESIEA Gradute School of Engineering ?"> </v-text-field>
-              <v-btn color="normal" class="valider" v-on:click="this.checkForm">Valider</v-btn>
+              <v-btn color="normal" v-on:click="this.editUserCard">OK</v-btn>  
             </div>
 
             <div v-else>
@@ -52,7 +52,9 @@
                     <v-divider></v-divider>
 
                     <v-card-text>
-                      I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
+                      <v-text-field v-model="age" placeholder="New age field"> </v-text-field>
+                      <v-text-field v-model="from" placeholder="New from field"> </v-text-field>
+                      <v-btn color="normal" v-on:click="this.editUserCard">OK</v-btn>  
                     </v-card-text>
                   </div>
                 </v-expand-transition>
@@ -94,7 +96,6 @@
     },
     data: function() {
       return {
-        name: '',
         age: '',
         from: '',
         cards: [],
@@ -103,18 +104,20 @@
       }
     },
     methods: {
-      checkForm (e) {
-        /* eslint-disable */
-        e.preventDefault();
-        this.cards.push({name: this.name, age: this.age, from: this.from});
-        console.log(e.target);
-        console.log(this.name);
-        console.log(this.age);
-        console.log(this.from);
-        console.log(this.cards);
+      editUserCard (e) {
+        this.axios.post('http://localhost:4000/api/editUserData', {
+          login: this.connectedUserName,
+          from: this.from,
+          age: this.age
+        })
+        .then((res) => {
+          this.successfulOperation = true;
+          this.$store.commit('setUserData', res.data);
+          setTimeout(() => { this.successfulOperation = false } , 3000);
+        })
       },
       deleteUserCard (e) {
-        this.axios.post('http://localhost:4000/api/deleteUserData', { // tester la requete vers le deleteUserCard
+        this.axios.post('http://localhost:4000/api/deleteUserData', {
           login: this.connectedUserName
         })
         .then((res) => {

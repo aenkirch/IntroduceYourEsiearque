@@ -99,6 +99,15 @@ app.listen(port, () => {
   console.log(`listening on ${port}`)
 })
 
+app.post('/api/editUserData', (req, res) => {
+  json.usersData[req.body.login] = {};
+  json.usersData[req.body.login].name = req.body.login;
+  json.usersData[req.body.login].from = req.body.from;
+  json.usersData[req.body.login].age = req.body.age;
+  fs.writeFileSync('data.json', JSON.stringify(json, null, 2));
+  res.status(200).send(json.usersData[req.body.login]);
+})
+
 app.post('/api/deleteUserData', (req, res) => {
   delete json.usersData[req.body.login];
   fs.writeFileSync('data.json', JSON.stringify(json, null, 2));

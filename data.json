@@ -6,11 +6,6 @@
     }
   ],
   "usersData": {
-    "admin": {
-      "name": "admin",
-      "age": 21,
-      "from": "DUT"
-    },
     "mathurin": {
       "name": "mathurin",
       "age": 21,
