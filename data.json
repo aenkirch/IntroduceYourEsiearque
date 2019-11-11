@@ -15,6 +15,11 @@
       "name": "emmanuel",
       "age": 41,
       "from": "ENA"
+    },
+    "admin": {
+      "name": "admin",
+      "from": "DUT",
+      "age": 31
     }
   }
 }

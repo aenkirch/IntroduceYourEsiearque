@@ -103,7 +103,7 @@ app.post('/api/editUserData', (req, res) => {
   json.usersData[req.body.login] = {};
   json.usersData[req.body.login].name = req.body.login;
   json.usersData[req.body.login].from = req.body.from;
-  json.usersData[req.body.login].age = req.body.age;
+  json.usersData[req.body.login].age = parseInt(req.body.age);
   fs.writeFileSync('data.json', JSON.stringify(json, null, 2));
   res.status(200).send(json.usersData[req.body.login]);
 })
