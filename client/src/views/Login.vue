@@ -54,8 +54,6 @@
 </template>
 
 <script>
-import { mapMutations, mapActions } from 'vuex'
-
 export default {
   name: 'login',
   data () {
@@ -70,18 +68,18 @@ export default {
         login: this.pseudo,
         password: this.password
       })
-        .then((res) => {
-          if (res.status === 200) {
-            let connectedUserData = res.data[this.pseudo];
+      .then((res) => {
+        if (res.status === 200) {
+          let connectedUserData = res.data[this.pseudo];
 
-            delete res.data[this.pseudo];
+          delete res.data[this.pseudo];
 
-            this.$store.commit('setUserName', this.pseudo)
-            this.$store.commit('setUserData', connectedUserData);
-            this.$store.commit('getUsersData', res.data);
-            this.$router.replace('home')
-          }
-        })
+          this.$store.commit('setUserName', this.pseudo)
+          this.$store.commit('setUserData', connectedUserData);
+          this.$store.commit('getUsersData', res.data);
+          this.$router.replace('home')
+        }
+      })
     }
   }
 }

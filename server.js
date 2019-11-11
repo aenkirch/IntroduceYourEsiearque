@@ -1,19 +1,18 @@
- /**
- *
- * entrez la commande suivante:
- * npm install --save express express-session body-parser morgan cors
- * puis node server.js
- * exemple complet à l'adresse https://github.com/Musinux/first-vue-app
- */
 const express = require('express')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const cors = require('cors')
 const session = require('express-session')
+const fs = require('fs');
 
-const app = express()
-const data = require('./data');
+const app = express();
+const data = fs.readFileSync('data.json');
+var json = JSON.parse(data);
+var users = json.users;
+var usersData = json.usersData;
 
+console.log(users);
+console.log(usersData);
 
 // ces lignes (cors) sont importantes pour les sessions dans la version de développement
 app.use(cors({
@@ -49,7 +48,7 @@ app.post('/api/login', (req, res) => {
   console.log('req.body', req.body)
   console.log('req.query', req.query)
   if (!req.session.userId) {
-    const user = data.users.find(u => u.username === req.body.login && u.password === req.body.password)
+    const user = users.find(u => u.username === req.body.login && u.password === req.body.password)
     if (!user) {
       // gérez le cas où on n'a pas trouvé d'utilisateur correspondant
       res.status(401)
@@ -59,7 +58,7 @@ app.post('/api/login', (req, res) => {
     } else {
       // connect the user
       req.session.userId = 1000 // connect the user, and change the id
-      res.json( data.usersData );
+      res.json( usersData );
     }
   } else {
     res.status(401)
@@ -98,4 +97,10 @@ app.get('/api/admin', (req, res) => {
 const port = process.env.PORT || 4000
 app.listen(port, () => {
   console.log(`listening on ${port}`)
+})
+
+app.post('/api/deleteUserData', (req, res) => {
+  delete json.usersData[req.body.login];
+  fs.writeFileSync('data.json', JSON.stringify(json, null, 2));
+  res.sendStatus(200);
 })

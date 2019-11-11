@@ -19,7 +19,7 @@
               <v-btn color="normal" class="valider" v-on:click="this.checkForm">Valider</v-btn>
             </div>
 
-            <div v-else> <!--FAIRE UNE CARTE AVEC LA DATA DE L‘USER CONNECTE OU IL POURRA CRUD-->
+            <div v-else>
               <v-card
                 class="mx-auto"
                 max-width="344"
@@ -41,7 +41,7 @@
                   </v-btn>
                   <v-btn
                     icon
-                    @click="showDelete = !showDelete"
+                    @click="deleteUserCard"
                   >
                     <v-icon>{{ 'mdi-delete' }}</v-icon>
                   </v-btn>
@@ -64,21 +64,15 @@
             <div>
               <ul>
                 <li v-for="item in usersData" :key="item.name + item.from">
-                  <v-card
-                    class="mx-auto"
-                    max-width="344"
-                    outlined
-                    style="margin-bottom: 1%;"
-                  >
-                    <v-list-item three-line>
-                      <v-list-item-content>
-                        <v-list-item-title class="headline mb-1">{{item.name}}</v-list-item-title>
-                        <v-list-item-subtitle>{{item.age}} | {{item.from}}</v-list-item-subtitle>
-                      </v-list-item-content>
-                    </v-list-item>
-                  </v-card>
+                  <other-student-card :name="item.name" :age="item.age" :from="item.from"></other-student-card>
                 </li>
               </ul>
+            </div>
+
+            <div v-if="successfulOperation">
+              <v-alert type="success" style="position: fixed; bottom: 0;">
+                Successful operation !
+              </v-alert>
             </div>
             
           </v-col>
@@ -90,9 +84,14 @@
 
 <script>
   import { mapState, mapMutations, mapActions } from 'vuex'
+  import OtherStudentCard from '../components/OtherStudentCard'
+
   export default {
     name: 'home',
     computed: mapState(['connectedUserName', 'connectedUserData', 'usersData']),
+    components: {
+      "other-student-card": OtherStudentCard
+    },
     data: function() {
       return {
         name: '',
@@ -100,7 +99,7 @@
         from: '',
         cards: [],
         showEdit: false,
-        showDelete: false
+        successfulOperation: false
       }
     },
     methods: {
@@ -113,6 +112,16 @@
         console.log(this.age);
         console.log(this.from);
         console.log(this.cards);
+      },
+      deleteUserCard (e) {
+        this.axios.post('http://localhost:4000/api/deleteUserData', { // tester la requete vers le deleteUserCard
+          login: this.connectedUserName
+        })
+        .then((res) => {
+          this.successfulOperation = true;
+          this.$store.commit('setUserData', );
+          setTimeout(() => { this.successfulOperation = false } , 3000);
+        })
       }
     }
   }
