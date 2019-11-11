@@ -8,7 +8,7 @@ export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
-    { path: '/', redirect: '/login' }
+    { path: '/', redirect: '/login' },
     {
       path: '/home',
       name: 'home',
